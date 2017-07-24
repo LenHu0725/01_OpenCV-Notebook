@@ -32,11 +32,11 @@ int main(int argc, char** argv)
 	sz.height = WINDOW_WIDTH;
 	sz.width = WINDOW_WIDTH;
 
-	CvPoint centerpoint;	//定义图像原点
+	CvPoint centerpoint;			//定义图像原点
 	centerpoint.x = WINDOW_WIDTH / 2;
 	centerpoint.y = WINDOW_WIDTH / 2;
 
-	CvSize ellsize;			//椭圆长度，长轴短轴
+	CvSize ellsize;				//椭圆长度，长轴短轴
 	ellsize.width = WINDOW_WIDTH / 4;
 	ellsize.height = WINDOW_WIDTH / 16;
 
