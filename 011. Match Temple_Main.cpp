@@ -5,8 +5,8 @@
 * Description      : Match Temple
 ***************************************************************************************/
 
-//------------------------¡¾Í·ÎÄ¼şÓëÃüÃû¿Õ¼ä°üº¬²¿·Ö¡¿----------------------------------
-//						ÃèÊö£º°üº¬³ÌĞòËùÒÀÀµµÄÍ·ÎÄ¼şºÍÃüÃû¿Õ¼ä
+//------------------------ã€å¤´æ–‡ä»¶ä¸å‘½åç©ºé—´åŒ…å«éƒ¨åˆ†ã€‘----------------------------------
+//						æè¿°ï¼šåŒ…å«ç¨‹åºæ‰€ä¾èµ–çš„å¤´æ–‡ä»¶å’Œå‘½åç©ºé—´
 //--------------------------------------------------------------------------------------
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
@@ -14,41 +14,41 @@
 using namespace cv;
 using namespace std;
 
-//------------------------------¡¾ºê¶¨Òå²¿·Ö¡¿------------------------------------------
-//							ÃèÊö£º¶¨Òå¸¨Öúºê
+//------------------------------ã€å®å®šä¹‰éƒ¨åˆ†ã€‘------------------------------------------
+//							æè¿°ï¼šå®šä¹‰è¾…åŠ©å®
 //--------------------------------------------------------------------------------------
-#define WINDOW_NAME1 "¡¾Ô­Ê¼Í¼Æ¬¡¿"		//¶¨ÒåÔ­Ê¼Í¼Æ¬´°¿ÚÏÔÊ¾ºê
-#define WINDOW_NAME2 "¡¾Ğ§¹û´°¿Ú¡¿"		//¶¨ÒåĞ§¹ûÍ¼Æ¬´°¿ÚÏÔÊ¾ºê
+#define WINDOW_NAME1 "ã€åŸå§‹å›¾ç‰‡ã€‘"		//å®šä¹‰åŸå§‹å›¾ç‰‡çª—å£æ˜¾ç¤ºå®
+#define WINDOW_NAME2 "ã€æ•ˆæœçª—å£ã€‘"		//å®šä¹‰æ•ˆæœå›¾ç‰‡çª—å£æ˜¾ç¤ºå®
 
 Mat g_srcImage; Mat g_templateImage; Mat g_resultImage;
 int g_nMatchMethod;
 int g_nMaxTrackbarNum = 5;
 
-//---------------------------¡¾È«¾Öº¯ÊıÉùÃ÷²¿·Ö¡¿---------------------------------------
-//							ÃèÊö£ºÈ«¾Öº¯ÊıµÄÉùÃ÷
+//---------------------------ã€å…¨å±€å‡½æ•°å£°æ˜éƒ¨åˆ†ã€‘---------------------------------------
+//							æè¿°ï¼šå…¨å±€å‡½æ•°çš„å£°æ˜
 //--------------------------------------------------------------------------------------
 void on_Matching(int, void*);
 
-//------------------------------¡¾Main()º¯Êı¡¿------------------------------------------
-//				ÃèÊö£º¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úº¯Êı£¬ÎÒÃÇµÄ³ÌĞò´ÓÕâÀï¿ªÊ¼Ö´ĞĞ
+//------------------------------ã€Main()å‡½æ•°ã€‘------------------------------------------
+//				æè¿°ï¼šæ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£å‡½æ•°ï¼Œæˆ‘ä»¬çš„ç¨‹åºä»è¿™é‡Œå¼€å§‹æ‰§è¡Œ
 //--------------------------------------------------------------------------------------
 int main(int argv, char** argc)
 {
-	//¡¾1¡¿ÔØÈëÔ­Í¼ÏñºÍÄ£°å¿é
+	//ã€1ã€‘è½½å…¥åŸå›¾åƒå’Œæ¨¡æ¿å—
 	g_srcImage = imread("Test.png", 1);
 	g_templateImage = imread("Template.png", 1);
 	
-	if (!g_srcImage.data) { printf("¶ÁÈ¡¼ì²âÍ¼Æ¬ÎÄ¼ş³ö´í£¡\n"); return false; }
-	if (!g_srcImage.data) { printf("¶ÁÈ¡Ä£°åÍ¼Æ¬ÎÄ¼ş³ö´í£¡\n"); return false; }
+	if (!g_srcImage.data) { printf("è¯»å–æ£€æµ‹å›¾ç‰‡æ–‡ä»¶å‡ºé”™ï¼\n"); return false; }
+	if (!g_srcImage.data) { printf("è¯»å–æ¨¡æ¿å›¾ç‰‡æ–‡ä»¶å‡ºé”™ï¼\n"); return false; }
 
 
-	//¡¾2¡¿´´½¨´°¿Ú
+	//ã€2ã€‘åˆ›å»ºçª—å£
 	namedWindow(WINDOW_NAME1, CV_WINDOW_AUTOSIZE);
 	namedWindow(WINDOW_NAME2, CV_WINDOW_AUTOSIZE);
 
 	
-	//¡¾3¡¿´´½¨»¬¶¯Ìõ²¢½øĞĞÒ»´Î³õÊ¼»¯
-	createTrackbar("·½·¨", WINDOW_NAME1, &g_nMatchMethod, g_nMaxTrackbarNum, on_Matching);
+	//ã€3ã€‘åˆ›å»ºæ»‘åŠ¨æ¡å¹¶è¿›è¡Œä¸€æ¬¡åˆå§‹åŒ–
+	createTrackbar("æ–¹æ³•", WINDOW_NAME1, &g_nMatchMethod, g_nMaxTrackbarNum, on_Matching);
 	on_Matching(0, 0);
 
 	waitKey(0);
@@ -57,39 +57,39 @@ int main(int argv, char** argc)
 
 }
 
-//----------------------------¡¾on_Matching()º¯Êı¡¿--------------------------------------
-//								ÃèÊö£º»Øµ÷º¯Êı
+//----------------------------ã€on_Matching()å‡½æ•°ã€‘--------------------------------------
+//								æè¿°ï¼šå›è°ƒå‡½æ•°
 //---------------------------------------------------------------------------------------
 void on_Matching(int, void*)
 {
-	//¡¾1¡¿¸ø¾Ö²¿±äÁ¿³õÊ¼»¯
+	//ã€1ã€‘ç»™å±€éƒ¨å˜é‡åˆå§‹åŒ–
 	Mat srcImage;
 	g_srcImage.copyTo(srcImage);
 
 
-	//¡¾2¡¿³õÊ¼»¯ÓÃÓÚ½á¹ûÊä³öµÄ¾ØÕó
+	//ã€2ã€‘åˆå§‹åŒ–ç”¨äºç»“æœè¾“å‡ºçš„çŸ©é˜µ
 	int resultImage_cols = g_srcImage.cols - g_templateImage.cols + 1;
 	int resultImage_rows = g_srcImage.rows - g_templateImage.rows + 1;
 	g_resultImage.create(resultImage_cols, resultImage_rows, CV_32FC1);
 
 
-	//¡¾3¡¿½øĞĞÆ¥ÅäºÍ±ê×¼»¯
+	//ã€3ã€‘è¿›è¡ŒåŒ¹é…å’Œæ ‡å‡†åŒ–
 	matchTemplate(g_srcImage, g_templateImage, g_resultImage, g_nMatchMethod);
 	normalize(g_resultImage, g_resultImage, 0, 1, NORM_MINMAX, -1, Mat());
 
 
-	//¡¾4¡¿Í¨¹ıº¯ÊıminMaxLoc¶¨Î»×îÆ¥ÅäµÄÎ»ÖÃ
+	//ã€4ã€‘é€šè¿‡å‡½æ•°minMaxLocå®šä½æœ€åŒ¹é…çš„ä½ç½®
 	double minValue; double maxValue; Point minLocation; Point maxLocation;Point matchaLocation;
 	minMaxLoc(g_resultImage, &minValue, &maxValue, &minLocation, &maxLocation, Mat());
 
-	//¡¾5¡¿¶ÔÓÚ·½·¨SQDIFFºÍSQDIFF_NORMED£¬Ô½Ğ¡µÄÊıÖ»ÓĞÕâ¸ü¸ßµÄÆ¥Åä½á¹û£¬¶øÆäÓàµÄ·½·¨£¬ÊıÖµÔ½´óÆ¥ÅäĞ§¹ûÔ½ºÃ
-	//´Ë¾ä´úÂëµÄOpenCV2°æÎª£º
+	//ã€5ã€‘å¯¹äºæ–¹æ³•SQDIFFå’ŒSQDIFF_NORMEDï¼Œè¶Šå°çš„æ•°åªæœ‰è¿™æ›´é«˜çš„åŒ¹é…ç»“æœï¼Œè€Œå…¶ä½™çš„æ–¹æ³•ï¼Œæ•°å€¼è¶Šå¤§åŒ¹é…æ•ˆæœè¶Šå¥½
+	//æ­¤å¥ä»£ç çš„OpenCV2ç‰ˆä¸ºï¼š
 	//if(g_nMatchMethod == CV_TM_SQDIFF || g_nMatchMethod == CV_TM_SQDIFF_NORMED )
 	if (g_nMatchMethod == TM_SQDIFF || g_nMatchMethod== TM_SQDIFF_NORMED )
 		{ matchaLocation = minLocation; }
 	else
 		{matchaLocation = maxLocation;}
-	//¡¾6¡¿»æÖÆ¾ØĞÎ£¬²¢ÏÔÊ¾×îÖÕ½á¹û
+	//ã€6ã€‘ç»˜åˆ¶çŸ©å½¢ï¼Œå¹¶æ˜¾ç¤ºæœ€ç»ˆç»“æœ
 	rectangle(srcImage,
 		matchaLocation, 
 		Point(matchaLocation.x + g_templateImage.cols, matchaLocation.y + g_templateImage.rows),
