@@ -30,9 +30,7 @@ void main()
 	sprintf(cname, "PIC\\%.4d.jpg", frameCount); //加载图片的文件夹，图片的名称编号是1开始1，2,3,4,5.。。。  
 	IplImage *src = cvLoadImage(cname);
 	if (!src)
-	{
-		return;
-	}
+	{ return -1; }
 	IplImage *src_resize = cvCreateImage(size, 8, 3); //创建视频文件格式大小的图片  
 	cvNamedWindow("srcImage");
 	while (src)
