@@ -1,13 +1,13 @@
-//----------------------------------¡¾³ÌĞòËµÃ÷¡¿----------------------------------------
-//		³ÌĞòËµÃ÷£º²Î¿¼¡¶OpenCV±à³ÌÈëÃÅ¡·ÅäÌ×³ÌĞòSURFÌØÕ÷µã¼ì²â
-//		³ÌĞòÃèÊö£ºFLANNÌØÕ÷µã¼ì²â
-//		¿ª·¢²âÊÔËùÓÃ²Ù×÷ÏµÍ³£º	Windows 10 64bit
-//		¿ª·¢²âÊÔËùÓÃIDE°æ±¾£º	Visual Stuido 2015
-//		¿ª·¢²âÊÔËùÓÃOpencv°æ±¾£º2.4.9
+//----------------------------------ã€ç¨‹åºè¯´æ˜ã€‘----------------------------------------
+//		ç¨‹åºè¯´æ˜ï¼šå‚è€ƒã€ŠOpenCVç¼–ç¨‹å…¥é—¨ã€‹é…å¥—ç¨‹åºSURFç‰¹å¾ç‚¹æ£€æµ‹
+//		ç¨‹åºæè¿°ï¼šFLANNç‰¹å¾ç‚¹æ£€æµ‹
+//		å¼€å‘æµ‹è¯•æ‰€ç”¨æ“ä½œç³»ç»Ÿï¼š	Windows 10 64bit
+//		å¼€å‘æµ‹è¯•æ‰€ç”¨IDEç‰ˆæœ¬ï¼š	Visual Stuido 2015
+//		å¼€å‘æµ‹è¯•æ‰€ç”¨Opencvç‰ˆæœ¬ï¼š2.4.9
 //--------------------------------------------------------------------------------------
 
-//--------------------------¡¾Í·ÎÄ¼ş¡¢ÃüÃû¿Õ¼ä°üº¬²¿·Ö¡¿--------------------------------
-//				ÃèÊö£º°üº¬³ÌĞòµÄÍ·ÎÄ¼ş¶¨ÒåºÍÃüÃû¿Õ¼ä
+//--------------------------ã€å¤´æ–‡ä»¶ã€å‘½åç©ºé—´åŒ…å«éƒ¨åˆ†ã€‘--------------------------------
+//				æè¿°ï¼šåŒ…å«ç¨‹åºçš„å¤´æ–‡ä»¶å®šä¹‰å’Œå‘½åç©ºé—´
 //--------------------------------------------------------------------------------------
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
@@ -18,50 +18,50 @@
 using namespace cv;
 using namespace std;
 
-//--------------------------------¡¾main()º¯Êı¡¿----------------------------------------
-//				ÃèÊö£º¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úº¯Êı£¬³ÌĞò´ÓÕâÀï¿ªÊ¼
+//--------------------------------ã€main()å‡½æ•°ã€‘----------------------------------------
+//				æè¿°ï¼šæ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£å‡½æ•°ï¼Œç¨‹åºä»è¿™é‡Œå¼€å§‹
 //--------------------------------------------------------------------------------------
 int main(int argc, char** argv)
 {
-	//¡¾1¡¿¶ÁÈ¡ËùĞèÍ¼Æ¬ÎÄ¼ş
+	//ã€1ã€‘è¯»å–æ‰€éœ€å›¾ç‰‡æ–‡ä»¶
 	Mat img_1 = imread("srcImage_1.jpg", 1);
 	Mat img_2 = imread("srcImage_2.jpg", 1);
 	if (!img_1.data || !img_2.data)
 	{
-		printf("Í¼Æ¬¶ÁÈ¡´íÎó£¬ÇëÑéÖ¤¸ùÄ¿Â¼ÏÂÊÇ·ñÓĞÍ¼Æ¬ÎÄ¼ş£¡~	/n"); return 233;
+		printf("å›¾ç‰‡è¯»å–é”™è¯¯ï¼Œè¯·éªŒè¯æ ¹ç›®å½•ä¸‹æ˜¯å¦æœ‰å›¾ç‰‡æ–‡ä»¶ï¼~	/n"); return 233;
 	}
 
-	//¡¾2¡¿ÀûÓÃSURF¼ì²âÆ÷¼ì²âµÄ¹Ø¼üµã
+	//ã€2ã€‘åˆ©ç”¨SURFæ£€æµ‹å™¨æ£€æµ‹çš„å…³é”®ç‚¹
 	int minHessian = 300;
 	SURF detector(minHessian);
 	std::vector<KeyPoint> keypoints_1, keypoints_2;
 	detector.detect(img_1, keypoints_1);
 	detector.detect(img_2, keypoints_2);
 
-	//¡¾3¡¿¼ÆËãÃèÊö·û(ÌØÕ÷ÏòÁ¿)
+	//ã€3ã€‘è®¡ç®—æè¿°ç¬¦(ç‰¹å¾å‘é‡)
 	SURF extractor;
 	Mat descriptors_1, descriptors_2;
 	extractor.compute(img_1, keypoints_1, descriptors_1);
 	extractor.compute(img_2, keypoints_2, descriptors_2);
 
-	//¡¾4¡¿²ÉÓÃFLANNËã·¨Æ¥ÅäÃèÊö·ûÏòÁ¿
+	//ã€4ã€‘é‡‡ç”¨FLANNç®—æ³•åŒ¹é…æè¿°ç¬¦å‘é‡
 	FlannBasedMatcher matcher;
 	std::vector<DMatch> matches;
 	matcher.match(descriptors_1, descriptors_2, matches);
 	double max_dist = 0; double min_dist = 100;
 
-	//¡¾5¡¿¿ìËÙ¼ÆËã¹Ø¼üµãÖ®¼äµÄ×î´óºÍ×îĞ¡µÄ¾àÀë
+	//ã€5ã€‘å¿«é€Ÿè®¡ç®—å…³é”®ç‚¹ä¹‹é—´çš„æœ€å¤§å’Œæœ€å°çš„è·ç¦»
 	for (int i = 0; i < descriptors_1.rows; i++)
 	{
 		double dist = matches[i].distance;
 		if (dist < min_dist)	min_dist = dist;
 		if (dist > max_dist)	max_dist = dist;
 	}
-	//Êä³ö¾àÀëĞÅÏ¢
-	printf(">×î´ó¾àÀë£¨Max dist£©£º%f \n", max_dist);
-	printf(">×îĞ¡¾àÀë£¨Min dist£©£º%f \n", max_dist);
+	//è¾“å‡ºè·ç¦»ä¿¡æ¯
+	printf(">æœ€å¤§è·ç¦»ï¼ˆMax distï¼‰ï¼š%f \n", max_dist);
+	printf(">æœ€å°è·ç¦»ï¼ˆMin distï¼‰ï¼š%f \n", max_dist);
 
-	//¡¾6¡¿´æÏÂ·ûºÏÌõ¼şµÄÆ¥Åä½á¹û£¨¼´Æä¾àÀëĞ¡ÓÚ2*min_distµÄ£©£¬Ê¹ÓÃradiusMatchÍ¬Ñù¿ÉĞĞ
+	//ã€6ã€‘å­˜ä¸‹ç¬¦åˆæ¡ä»¶çš„åŒ¹é…ç»“æœï¼ˆå³å…¶è·ç¦»å°äº2*min_distçš„ï¼‰ï¼Œä½¿ç”¨radiusMatchåŒæ ·å¯è¡Œ
 	std::vector<DMatch> good_matches;
 	for (int i = 0; i < descriptors_1.rows; i++)
 	{
@@ -69,21 +69,21 @@ int main(int argc, char** argv)
 			good_matches.push_back(matches[i]);
 	}
 
-	//¡¾7¡¿»áÖ¸³ö·ûºÏÌõ¼şµÄÆ¥Åäµã
+	//ã€7ã€‘ä¼šæŒ‡å‡ºç¬¦åˆæ¡ä»¶çš„åŒ¹é…ç‚¹
 	Mat img_matches;
 	drawMatches(img_1, keypoints_1, img_2, keypoints_2,
 		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
 		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
-	//¡¾8¡¿Êä³öÏà¹ØÆ¥ÅäµãĞÅÏ¢
+	//ã€8ã€‘è¾“å‡ºç›¸å…³åŒ¹é…ç‚¹ä¿¡æ¯
 	for (int i = 0; i < (int)good_matches.size(); i++)
-		printf(">¸ººÉÌõ¼şµÄÆ¥Åäµã[%d]ÌØÕ÷µã1£º%d -- ÌØÕ÷µã2£º%d \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
+		printf(">è´Ÿè·æ¡ä»¶çš„åŒ¹é…ç‚¹[%d]ç‰¹å¾ç‚¹1ï¼š%d -- ç‰¹å¾ç‚¹2ï¼š%d \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
 
-	//¡¾9¡¿ÏÔÊ¾Ğ§¹ûÍ¼
-	namedWindow("Æ¥ÅäĞ§¹ûÍ¼", WINDOW_NORMAL);
-	imshow("Æ¥ÅäĞ§¹ûÍ¼", img_matches);
+	//ã€9ã€‘æ˜¾ç¤ºæ•ˆæœå›¾
+	namedWindow("åŒ¹é…æ•ˆæœå›¾", WINDOW_NORMAL);
+	imshow("åŒ¹é…æ•ˆæœå›¾", img_matches);
 
-	//°´ÈÎÒâ¼üÍË³ö³ÌĞò
+	//æŒ‰ä»»æ„é”®é€€å‡ºç¨‹åº
 	waitKey(0);
 	return 0;
 
