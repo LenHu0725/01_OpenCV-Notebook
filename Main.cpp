@@ -1,13 +1,13 @@
 /**************************************************************************************************************************/
-/*Project Name	: Calculate the accuracy map
+/*Project Name		: Calculate the accuracy map
 /*Author		: hx
 /*Date			: 2017.04.13
-/*Function		: 
-/*
-/*Abstract		: ËÄ¸öÊı·Ö±ğÊÇ¾ØĞÎ¿òµÄ×óÉÏ½Ç(Á½¸ö)×ø±ê¡¢¿í¶ÈºÍ¸ß¶È
-/*
+/*Abstract		: å››ä¸ªæ•°åˆ†åˆ«æ˜¯çŸ©å½¢æ¡†çš„å·¦ä¸Šè§’(ä¸¤ä¸ª)åæ ‡ã€å®½åº¦å’Œé«˜åº¦
 /**************************************************************************************************************************/
 
+//------------------------ã€å¤´æ–‡ä»¶ä¸å‘½åç©ºé—´åŒ…å«éƒ¨åˆ†ã€‘----------------------------------
+//			æè¿°ï¼šåŒ…å«ç¨‹åºæ‰€ä¾èµ–çš„å¤´æ–‡ä»¶å’Œå‘½åç©ºé—´
+//--------------------------------------------------------------------------------------
 #include <opencv2/opencv.hpp>
 #include <iostream>  
 #include <fstream>  
@@ -17,13 +17,15 @@
 using namespace cv;
 using namespace std;
 
-
+//------------------------------ã€Main()å‡½æ•°ã€‘------------------------------------------
+//		æè¿°ï¼šæ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£å‡½æ•°ï¼Œæˆ‘ä»¬çš„ç¨‹åºä»è¿™é‡Œå¼€å§‹æ‰§è¡Œ
+//--------------------------------------------------------------------------------------
 int main(int argv, char** argc)
 {
-	//¶¨Òå¶ÁÈ¡µÄÁ½¸ö¾ØÕóÓëĞ´ÈëµÄÒ»¸ö¾ØÕó
+	//å®šä¹‰è¯»å–çš„ä¸¤ä¸ªçŸ©é˜µä¸å†™å…¥çš„ä¸€ä¸ªçŸ©é˜µ
 	Mat srcMyData;Mat srcAimData;Mat proData;
 	
-	//¶¨Òå¶ÁÈ¡Êı¾İ²¿·Ö£¬²¢½«Êı¾İ×°Èë
+	//å®šä¹‰è¯»å–æ•°æ®éƒ¨åˆ†ï¼Œå¹¶å°†æ•°æ®è£…å…¥
 	FileStorage fs_MyData("my_results.txt", FileStorage::READ);
 	//FileStorage fs_srcAimData("groundtruth_rect.txt", FileStorage::READ);
 	//FileStorage fs_proData("AccuarcyMap.txt ", FileStorage::WRITE);
@@ -36,55 +38,51 @@ int main(int argv, char** argc)
 	cout << "srcMyData=" << endl << " " << srcMyData << endl << endl;
 	cout << "groundtruth_rect=" <<endl<< " "<< srcAimData<<endl<<endl;
 
-
-
-
-
-
+	
 }
 
 
 
 /*----------------------------
-* ¹¦ÄÜ : ½« cv::Mat Êı¾İĞ´Èëµ½ .txt ÎÄ¼ş
+* åŠŸèƒ½ : å°† cv::Mat æ•°æ®å†™å…¥åˆ° .txt æ–‡ä»¶
 *----------------------------
-* º¯Êı : WriteData
-* ·ÃÎÊ : public
-* ·µ»Ø : -1£º´ò¿ªÎÄ¼şÊ§°Ü£»0£ºĞ´ÈëÊı¾İ³É¹¦£»1£º¾ØÕóÎª¿Õ
+* å‡½æ•° : WriteData
+* è®¿é—® : public
+* è¿”å› : -1ï¼šæ‰“å¼€æ–‡ä»¶å¤±è´¥ï¼›0ï¼šå†™å…¥æ•°æ®æˆåŠŸï¼›1ï¼šçŸ©é˜µä¸ºç©º
 *
-* ²ÎÊı : fileName	[in]	ÎÄ¼şÃû
-* ²ÎÊı : matData	[in]	¾ØÕóÊı¾İ
+* å‚æ•° : fileName	[in]	æ–‡ä»¶å
+* å‚æ•° : matData	[in]	çŸ©é˜µæ•°æ®
 */
 int WriteData(string fileName, cv::Mat& matData)
 {
 	int retVal = 0;
 
-	// ¼ì²é¾ØÕóÊÇ·ñÎª¿Õ  
+	// æ£€æŸ¥çŸ©é˜µæ˜¯å¦ä¸ºç©º  
 	if (matData.empty())
 	{
-		cout << "¾ØÕóÎª¿Õ" << endl;
+		cout << "çŸ©é˜µä¸ºç©º" << endl;
 		retVal = 1;
 		return (retVal);
 	}
 
-	// ´ò¿ªÎÄ¼ş  
-	ofstream outFile(fileName.c_str(), ios_base::out);  //°´ĞÂ½¨»ò¸²¸Ç·½Ê½Ğ´Èë  
+	// æ‰“å¼€æ–‡ä»¶  
+	ofstream outFile(fileName.c_str(), ios_base::out);  //æŒ‰æ–°å»ºæˆ–è¦†ç›–æ–¹å¼å†™å…¥  
 	if (!outFile.is_open())
 	{
-		cout << "´ò¿ªÎÄ¼şÊ§°Ü" << endl;
+		cout << "æ‰“å¼€æ–‡ä»¶å¤±è´¥" << endl;
 		retVal = -1;
 		return (retVal);
 	}
 
-	// Ğ´ÈëÊı¾İ  
+	// å†™å…¥æ•°æ®  
 	for (int r = 0; r < matData.rows; r++)
 	{
 		for (int c = 0; c < matData.cols; c++)
 		{
-			int data = matData.at<uchar>(r, c);    //¶ÁÈ¡Êı¾İ£¬at<type> - type ÊÇ¾ØÕóÔªËØµÄ¾ßÌåÊı¾İ¸ñÊ½  
-			outFile << data << "\t";   //Ã¿ÁĞÊı¾İÓÃ tab ¸ô¿ª  
+			int data = matData.at<uchar>(r, c);    //è¯»å–æ•°æ®ï¼Œat<type> - type æ˜¯çŸ©é˜µå…ƒç´ çš„å…·ä½“æ•°æ®æ ¼å¼  
+			outFile << data << "\t";   //æ¯åˆ—æ•°æ®ç”¨ tab éš”å¼€  
 		}
-		outFile << endl;  //»»ĞĞ  
+		outFile << endl;  //æ¢è¡Œ  
 	}
 
 	return (retVal);
@@ -92,50 +90,50 @@ int WriteData(string fileName, cv::Mat& matData)
 
 
 /*----------------------------
-* ¹¦ÄÜ : ´Ó .txt ÎÄ¼şÖĞ¶ÁÈëÊı¾İ£¬±£´æµ½ cv::Mat ¾ØÕó
-*      - Ä¬ÈÏ°´ float ¸ñÊ½¶ÁÈëÊı¾İ£¬
-*      - Èç¹ûÃ»ÓĞÖ¸¶¨¾ØÕóµÄĞĞ¡¢ÁĞºÍÍ¨µÀÊı£¬ÔòÊä³öµÄ¾ØÕóÊÇµ¥Í¨µÀ¡¢N ĞĞ 1 ÁĞµÄ
+* åŠŸèƒ½ : ä» .txt æ–‡ä»¶ä¸­è¯»å…¥æ•°æ®ï¼Œä¿å­˜åˆ° cv::Mat çŸ©é˜µ
+*      - é»˜è®¤æŒ‰ float æ ¼å¼è¯»å…¥æ•°æ®ï¼Œ
+*      - å¦‚æœæ²¡æœ‰æŒ‡å®šçŸ©é˜µçš„è¡Œã€åˆ—å’Œé€šé“æ•°ï¼Œåˆ™è¾“å‡ºçš„çŸ©é˜µæ˜¯å•é€šé“ã€N è¡Œ 1 åˆ—çš„
 *----------------------------
-* º¯Êı : LoadData
-* ·ÃÎÊ : public
-* ·µ»Ø : -1£º´ò¿ªÎÄ¼şÊ§°Ü£»0£º°´Éè¶¨µÄ¾ØÕó²ÎÊı¶ÁÈ¡Êı¾İ³É¹¦£»1£º°´Ä¬ÈÏµÄ¾ØÕó²ÎÊı¶ÁÈ¡Êı¾İ
+* å‡½æ•° : LoadData
+* è®¿é—® : public
+* è¿”å› : -1ï¼šæ‰“å¼€æ–‡ä»¶å¤±è´¥ï¼›0ï¼šæŒ‰è®¾å®šçš„çŸ©é˜µå‚æ•°è¯»å–æ•°æ®æˆåŠŸï¼›1ï¼šæŒ‰é»˜è®¤çš„çŸ©é˜µå‚æ•°è¯»å–æ•°æ®
 *
-* ²ÎÊı : fileName    [in]    ÎÄ¼şÃû
-* ²ÎÊı : matData [out]   ¾ØÕóÊı¾İ
-* ²ÎÊı : matRows [in]    ¾ØÕóĞĞÊı£¬Ä¬ÈÏÎª 0
-* ²ÎÊı : matCols [in]    ¾ØÕóÁĞÊı£¬Ä¬ÈÏÎª 0
-* ²ÎÊı : matChns [in]    ¾ØÕóÍ¨µÀÊı£¬Ä¬ÈÏÎª 0
+* å‚æ•° : fileName    [in]    æ–‡ä»¶å
+* å‚æ•° : matData [out]   çŸ©é˜µæ•°æ®
+* å‚æ•° : matRows [in]    çŸ©é˜µè¡Œæ•°ï¼Œé»˜è®¤ä¸º 0
+* å‚æ•° : matCols [in]    çŸ©é˜µåˆ—æ•°ï¼Œé»˜è®¤ä¸º 0
+* å‚æ•° : matChns [in]    çŸ©é˜µé€šé“æ•°ï¼Œé»˜è®¤ä¸º 0
 */
 int LoadData(string fileName, cv::Mat& matData, int matRows = 0, int matCols = 0, int matChns = 0)
 {
 	int retVal = 0;
 
-	// ´ò¿ªÎÄ¼ş  
+	// æ‰“å¼€æ–‡ä»¶  
 	ifstream inFile(fileName.c_str(), ios_base::in);
 	if (!inFile.is_open())
 	{
-		cout << "¶ÁÈ¡ÎÄ¼şÊ§°Ü" << endl;
+		cout << "è¯»å–æ–‡ä»¶å¤±è´¥" << endl;
 		retVal = -1;
 		return (retVal);
 	}
 
-	// ÔØÈëÊı¾İ  
-	istream_iterator<float> begin(inFile);    //°´ float ¸ñÊ½È¡ÎÄ¼şÊı¾İÁ÷µÄÆğÊ¼Ö¸Õë  
-	istream_iterator<float> end;          //È¡ÎÄ¼şÁ÷µÄÖÕÖ¹Î»ÖÃ  
-	vector<float> inData(begin, end);      //½«ÎÄ¼şÊı¾İ±£´æÖÁ std::vector ÖĞ  
-	cv::Mat tmpMat = cv::Mat(inData);       //½«Êı¾İÓÉ std::vector ×ª»»Îª cv::Mat  
+	// è½½å…¥æ•°æ®  
+	istream_iterator<float> begin(inFile);    //æŒ‰ float æ ¼å¼å–æ–‡ä»¶æ•°æ®æµçš„èµ·å§‹æŒ‡é’ˆ  
+	istream_iterator<float> end;          //å–æ–‡ä»¶æµçš„ç»ˆæ­¢ä½ç½®  
+	vector<float> inData(begin, end);      //å°†æ–‡ä»¶æ•°æ®ä¿å­˜è‡³ std::vector ä¸­  
+	cv::Mat tmpMat = cv::Mat(inData);       //å°†æ•°æ®ç”± std::vector è½¬æ¢ä¸º cv::Mat  
 
-											// Êä³öµ½ÃüÁîĞĞ´°¿Ú  
-											//copy(vec.begin(),vec.end(),ostream_iterator<double>(cout,"\t"));   
+	// è¾“å‡ºåˆ°å‘½ä»¤è¡Œçª—å£  
+	//copy(vec.begin(),vec.end(),ostream_iterator<double>(cout,"\t"));   
 
-											// ¼ì²éÉè¶¨µÄ¾ØÕó³ß´çºÍÍ¨µÀÊı  
+	// æ£€æŸ¥è®¾å®šçš„çŸ©é˜µå°ºå¯¸å’Œé€šé“æ•°  
 	size_t dataLength = inData.size();
-	//1.Í¨µÀÊı  
+	//1.é€šé“æ•°  
 	if (matChns == 0)
 	{
 		matChns = 1;
 	}
-	//2.ĞĞÁĞÊı  
+	//2.è¡Œåˆ—æ•°  
 	if (matRows != 0 && matCols == 0)
 	{
 		matCols = dataLength / matChns / matRows;
@@ -149,16 +147,16 @@ int LoadData(string fileName, cv::Mat& matData, int matRows = 0, int matCols = 0
 		matRows = dataLength / matChns;
 		matCols = 1;
 	}
-	//3.Êı¾İ×Ü³¤¶È  
+	//3.æ•°æ®æ€»é•¿åº¦  
 	if (dataLength != (matRows * matCols * matChns))
 	{
-		cout << "¶ÁÈëµÄÊı¾İ³¤¶È ²»Âú×ã Éè¶¨µÄ¾ØÕó³ß´çÓëÍ¨µÀÊıÒªÇó£¬½«°´Ä¬ÈÏ·½Ê½Êä³ö¾ØÕó£¡" << endl;
+		cout << "è¯»å…¥çš„æ•°æ®é•¿åº¦ ä¸æ»¡è¶³ è®¾å®šçš„çŸ©é˜µå°ºå¯¸ä¸é€šé“æ•°è¦æ±‚ï¼Œå°†æŒ‰é»˜è®¤æ–¹å¼è¾“å‡ºçŸ©é˜µï¼" << endl;
 		retVal = 1;
 		matChns = 1;
 		matRows = dataLength;
 	}
 
-	// ½«ÎÄ¼şÊı¾İ±£´æÖÁÊä³ö¾ØÕó  
+	// å°†æ–‡ä»¶æ•°æ®ä¿å­˜è‡³è¾“å‡ºçŸ©é˜µ  
 	matData = tmpMat.reshape(matChns, matRows).clone();
 
 	return (retVal);
