@@ -3,11 +3,11 @@
 * Copyright        : BUPT
 * Author           : hx
 * Date             : 2017.07.25
-* Description      : Number Test
+* Description      : Number Recognize
 *****************************************************************/
 
-//------------------------¡¾Í·ÎÄ¼şÓëÃüÃû¿Õ¼ä°üº¬²¿·Ö¡¿----------------------------------
-//						ÃèÊö£º°üº¬³ÌĞòËùÒÀÀµµÄÍ·ÎÄ¼şºÍÃüÃû¿Õ¼ä
+//------------------------ã€å¤´æ–‡ä»¶ä¸å‘½åç©ºé—´åŒ…å«éƒ¨åˆ†ã€‘----------------------------------
+//		     æè¿°ï¼šåŒ…å«ç¨‹åºæ‰€ä¾èµ–çš„å¤´æ–‡ä»¶å’Œå‘½åç©ºé—´
 //--------------------------------------------------------------------------------------
 #include <iostream>
 #include <opencv2/opencv.hpp>
@@ -17,32 +17,32 @@ using namespace std;
 using namespace cv;
 
 
-//------------------------------¡¾ºê¶¨Òå²¿·Ö¡¿------------------------------------------
-//							ÃèÊö£º¶¨Òå¸¨Öúºê
+//------------------------------ã€å®å®šä¹‰éƒ¨åˆ†ã€‘------------------------------------------
+//				æè¿°ï¼šå®šä¹‰è¾…åŠ©å®
 //--------------------------------------------------------------------------------------
 int ResultNum = 0;
-vector<float> descriptors;//´æ·Å½á¹û
+vector<float> descriptors;//å­˜æ”¾ç»“æœ
 
 CvSVM svm;
 HOGDescriptor *hog = new HOGDescriptor(cvSize(28, 28), cvSize(14, 14), cvSize(7, 7), cvSize(7, 7), 18);
 
 
-//-----------------------------¡¾º¯ÊıÉùÃ÷²¿·Ö¡¿-----------------------------------------
-//							  ÃèÊö£ºÈ«¾Öº¯ÊıµÄÉùÃ÷
+//-----------------------------ã€å‡½æ•°å£°æ˜éƒ¨åˆ†ã€‘-----------------------------------------
+// 			     æè¿°ï¼šå…¨å±€å‡½æ•°çš„å£°æ˜
 //--------------------------------------------------------------------------------------
-int RecNum(string FileName);	//Ê¶±ğÊı×Ö³ÌĞò
+int RecNum(string FileName);	//è¯†åˆ«æ•°å­—ç¨‹åº
 
 int main()
 {	
-	// ¡¾1¡¿¶¨Òåº¯Êı ¶ÁÈ¡¿âÎÄ¼ş
+	// ã€1ã€‘å®šä¹‰å‡½æ•° è¯»å–åº“æ–‡ä»¶
 	char NumCounter = '1';
 	string FileName; string FileStr1; string FileStr2;
-	svm.load("HOG_SVM_DATA.xml");// ¼ÓÔØÑµÁ·ºÃµÄxmlÎÄ¼ş£¬ÕâÀïÑµÁ·µÄÊÇ10K¸öÊÖĞ´Êı×Ö
+	svm.load("HOG_SVM_DATA.xml");// åŠ è½½è®­ç»ƒå¥½çš„xmlæ–‡ä»¶ï¼Œè¿™é‡Œè®­ç»ƒçš„æ˜¯10Kä¸ªæ‰‹å†™æ•°å­—
 	FileStr1 = ".\\ROI\\";
 	FileStr2 = ".jpg";
 
 
-	// ¡¾2¡¿Ê¶±ğÊı×Ö
+	// ã€2ã€‘è¯†åˆ«æ•°å­—
 	for (int i = 0; i <= 5; i++, NumCounter++) {
 		FileName = FileStr1 + NumCounter + FileStr2;
 		RecNum(FileName);
@@ -53,21 +53,21 @@ int main()
 }
 
 
-//---------------------------¡¾RecNu()º¯ÊıÉùÃ÷²¿·Ö¡¿------------------------------------
-//							  ÃèÊö£ºÊ¶±ğº¯ÊıµÄÉùÃ÷
+//---------------------------ã€RecNu()å‡½æ•°å£°æ˜éƒ¨åˆ†ã€‘------------------------------------
+//	  		       æè¿°ï¼šè¯†åˆ«å‡½æ•°çš„å£°æ˜
 //--------------------------------------------------------------------------------------
 int RecNum(string FileName)
 {
-	// ¡¾1¡¿¶¨Òå±äÁ¿ ¶ÁÈ¡ÎÄ¼ş
+	// ã€1ã€‘å®šä¹‰å˜é‡ è¯»å–æ–‡ä»¶
 	
 	IplImage *test; 
 	IplImage *CutImg = cvCreateImage(cvSize(50, 50), 8, 3);
 	const char* StrBuff = FileName.c_str();
-	//vector<float> descriptors;//´æ·Å½á¹û
-	char result[300]; // ´æ·ÅÔ¤²â½á¹û
+	//vector<float> descriptors;//å­˜æ”¾ç»“æœ
+	char result[300]; // å­˜æ”¾é¢„æµ‹ç»“æœ
 	cout << "RecNum() String Out:" << FileName << endl;
-	//test = cvLoadImage("Pic.jpg", 1); // ´ıÔ¤²âÍ¼Æ¬£¬ÓÃÏµÍ³×Ô´øµÄ»­Í¼¹¤¾ßËæ±ãÊÖĞ´
-	test = cvLoadImage(StrBuff, 1); // ´ıÔ¤²âÍ¼Æ¬£¬ÓÃÏµÍ³×Ô´øµÄ»­Í¼¹¤¾ßËæ±ãÊÖĞ´
+	//test = cvLoadImage("Pic.jpg", 1); // å¾…é¢„æµ‹å›¾ç‰‡ï¼Œç”¨ç³»ç»Ÿè‡ªå¸¦çš„ç”»å›¾å·¥å…·éšä¾¿æ‰‹å†™
+	test = cvLoadImage(StrBuff, 1); // å¾…é¢„æµ‹å›¾ç‰‡ï¼Œç”¨ç³»ç»Ÿè‡ªå¸¦çš„ç”»å›¾å·¥å…·éšä¾¿æ‰‹å†™
 	
 	if (!test){
 		cout << "not exist" << endl;
@@ -76,10 +76,10 @@ int RecNum(string FileName)
 	cout << "load image done" << endl;
 	
 
-	// ¡¾2¡¿·Ö¸îÍ¼Æ¬
+	// ã€2ã€‘åˆ†å‰²å›¾ç‰‡
 	for (int i = 0; i < 2; i++) {
 
-		// ¡¾1¡¿ÉèÖÃROIÇøÓò
+		// ã€1ã€‘è®¾ç½®ROIåŒºåŸŸ
 		Rect srcRoi = Rect(50*i+5, 5, 50, 50);
 		Rect desRoi = Rect(0, 0, 50, 50);
 		cvSetImageROI(test, srcRoi);
@@ -88,16 +88,16 @@ int RecNum(string FileName)
 		cvResetImageROI(test);
 		cvResetImageROI(CutImg);
 
-		// ¡¾2¡¿Í¼Ïñ¹éÒ»»¯´¦Àí
+		// ã€2ã€‘å›¾åƒå½’ä¸€åŒ–å¤„ç†
 		IplImage* trainTempImg = cvCreateImage(cvSize(28, 28), 8, 3);
 		cvZero(trainTempImg);
-		cvResize(CutImg, trainTempImg);		// µ÷ÕûsrcµÄ´óĞ¡ÎªdstµÄ´óĞ¡
+		cvResize(CutImg, trainTempImg);		// è°ƒæ•´srcçš„å¤§å°ä¸ºdstçš„å¤§å°
 		//cvShowImage("ResText", trainTempImg);
 
-		// ¡¾3¡¿²âÊÔÍ¼Æ¬ÌØÕ÷µãÌáÈ¡ÓëÆ¥Åä
+		// ã€3ã€‘æµ‹è¯•å›¾ç‰‡ç‰¹å¾ç‚¹æå–ä¸åŒ¹é…
 		//HOGDescriptor *hog = new HOGDescriptor(cvSize(28, 28), cvSize(14, 14), cvSize(7, 7), cvSize(7, 7), 9);
-		hog->compute(trainTempImg, descriptors, Size(1, 1), Size(0, 0)); //HogÌØÕ÷¼ÆËã
-		//cout << "HOG dims: " << descriptors.size() << endl;  //´òÓ¡HogÌØÕ÷Î¬Êı  £¬ÕâÀïÊÇ324
+		hog->compute(trainTempImg, descriptors, Size(1, 1), Size(0, 0)); //Hogç‰¹å¾è®¡ç®—
+		//cout << "HOG dims: " << descriptors.size() << endl;  //æ‰“å°Hogç‰¹å¾ç»´æ•°  ï¼Œè¿™é‡Œæ˜¯324
 		CvMat* SVMtrainMat = cvCreateMat(1, descriptors.size(), CV_32FC1);
 		int n = 0;
 		for (vector<float>::iterator iter = descriptors.begin(); iter != descriptors.end(); iter++) {
@@ -105,8 +105,8 @@ int RecNum(string FileName)
 			n++;
 		}
 
-		// ¡¾4¡¿¼ì²â½á¹ûÊä³ö
-		float ret = svm.predict(SVMtrainMat);//¼ì²â½á¹û
+		// ã€4ã€‘æ£€æµ‹ç»“æœè¾“å‡º
+		float ret = svm.predict(SVMtrainMat);//æ£€æµ‹ç»“æœ
 		sprintf(result, "%1.0f\r\n", ret);
 		cvNamedWindow("dst", 1);
 		cvShowImage("dst", trainTempImg);
@@ -117,7 +117,7 @@ int RecNum(string FileName)
 
 
 
-	// ¡¾3¡¿³ÌĞò½áÊø
+	// ã€3ã€‘ç¨‹åºç»“æŸ
 	cvReleaseImage(&test);
 	//cvReleaseImage(&trainTempImg);
 
