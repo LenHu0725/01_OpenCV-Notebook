@@ -5,8 +5,8 @@
 * Description      : Knn
 ******************************************************************************************/
 
-//----------------------------¡¾Í·ÎÄ¼ş¡¢ÃüÃû¿Õ¼ä°üº¬²¿·Ö¡¿------------------------------
-//			ÃèÊö£º°üº¬³ÌĞòËùÒÀÀµµÄÍ·ÎÄ¼şºÍÃüÃû¿Õ¼ä
+//----------------------------ã€å¤´æ–‡ä»¶ã€å‘½åç©ºé—´åŒ…å«éƒ¨åˆ†ã€‘------------------------------
+//			æè¿°ï¼šåŒ…å«ç¨‹åºæ‰€ä¾èµ–çš„å¤´æ–‡ä»¶å’Œå‘½åç©ºé—´
 //--------------------------------------------------------------------------------------
 #include "stdafx.h"
 #include "opencv2\opencv.hpp"
@@ -18,8 +18,8 @@ using namespace cv;
 using namespace cv::ml;
 
 
-//--------------------------------¡¾main()º¯Êı¡¿----------------------------------------
-//		ÃèÊö£º¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úº¯Êı£¬³ÌĞò´ÓÕâÀï¿ªÊ¼
+//--------------------------------ã€main()å‡½æ•°ã€‘----------------------------------------
+//		æè¿°ï¼šæ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£å‡½æ•°ï¼Œç¨‹åºä»è¿™é‡Œå¼€å§‹
 //--------------------------------------------------------------------------------------
 int main()
 {
@@ -27,31 +27,31 @@ int main()
 	Mat gray;
 	cvtColor(img, gray, CV_BGR2GRAY);
 	int b = 20;
-	int m = gray.rows / b;   //Ô­Í¼Îª1000*2000
-	int n = gray.cols / b;   //²Ã¼ôÎª5000¸ö20*20µÄĞ¡Í¼¿é
-	Mat data, labels;   //ÌØÕ÷¾ØÕó
+	int m = gray.rows / b;   //åŸå›¾ä¸º1000*2000
+	int n = gray.cols / b;   //è£å‰ªä¸º5000ä¸ª20*20çš„å°å›¾å—
+	Mat data, labels;   //ç‰¹å¾çŸ©é˜µ
 	for (int i = 0; i < n; i++)
 	{
-		int offsetCol = i*b; //ÁĞÉÏµÄÆ«ÒÆÁ¿
+		int offsetCol = i*b; //åˆ—ä¸Šçš„åç§»é‡
 		for (int j = 0; j < m; j++)
 		{
-			int offsetRow = j*b;  //ĞĞÉÏµÄÆ«ÒÆÁ¿
-								  //½ØÈ¡20*20µÄĞ¡¿é
+			int offsetRow = j*b;  //è¡Œä¸Šçš„åç§»é‡
+								  //æˆªå–20*20çš„å°å—
 			Mat tmp;
 			gray(Range(offsetRow, offsetRow + b), Range(offsetCol, offsetCol + b)).copyTo(tmp);
-			data.push_back(tmp.reshape(0, 1));  //ĞòÁĞ»¯ºó·ÅÈëÌØÕ÷¾ØÕó
-			labels.push_back((int)j / 5);  //¶ÔÓ¦µÄ±ê×¢
+			data.push_back(tmp.reshape(0, 1));  //åºåˆ—åŒ–åæ”¾å…¥ç‰¹å¾çŸ©é˜µ
+			labels.push_back((int)j / 5);  //å¯¹åº”çš„æ ‡æ³¨
 		}
 
 	}
-	data.convertTo(data, CV_32F); //ucharĞÍ×ª»»Îªcv_32f
+	data.convertTo(data, CV_32F); //ucharå‹è½¬æ¢ä¸ºcv_32f
 	int samplesNum = data.rows;
 	int trainNum = 3000;
 	Mat trainData, trainLabels;
-	trainData = data(Range(0, trainNum), Range::all());   //Ç°3000¸öÑù±¾ÎªÑµÁ·Êı¾İ
+	trainData = data(Range(0, trainNum), Range::all());   //å‰3000ä¸ªæ ·æœ¬ä¸ºè®­ç»ƒæ•°æ®
 	trainLabels = labels(Range(0, trainNum), Range::all());
 
-	//Ê¹ÓÃKNNËã·¨
+	//ä½¿ç”¨KNNç®—æ³•
 	int K = 5;
 	Ptr<TrainData> tData = TrainData::create(trainData, ROW_SAMPLE, trainLabels);
 	Ptr<KNearest> model = KNearest::create();
@@ -59,19 +59,19 @@ int main()
 	model->setIsClassifier(true);
 	model->train(tData);
 
-	//Ô¤²â·ÖÀà
+	//é¢„æµ‹åˆ†ç±»
 	double train_hr = 0, test_hr = 0;
 	Mat response;
 	// compute prediction error on train and test data
 	for (int i = 0; i < samplesNum; i++)
 	{
 		Mat sample = data.row(i);
-		float r = model->predict(sample);   //¶ÔËùÓĞĞĞ½øĞĞÔ¤²â
-											//Ô¤²â½á¹ûÓëÔ­½á¹ûÏà±È£¬ÏàµÈÎª1£¬²»µÈÎª0
+		float r = model->predict(sample);   //å¯¹æ‰€æœ‰è¡Œè¿›è¡Œé¢„æµ‹
+											//é¢„æµ‹ç»“æœä¸åŸç»“æœç›¸æ¯”ï¼Œç›¸ç­‰ä¸º1ï¼Œä¸ç­‰ä¸º0
 		r = std::abs(r - labels.at<int>(i)) <= FLT_EPSILON ? 1.f : 0.f;
 
 		if (i < trainNum)
-			train_hr += r;  //ÀÛ»ıÕıÈ·Êı
+			train_hr += r;  //ç´¯ç§¯æ­£ç¡®æ•°
 		else
 			test_hr += r;
 	}
