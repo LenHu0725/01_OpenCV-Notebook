@@ -37,10 +37,8 @@ int main(int argv, char** argc)
 
 	cout << "srcMyData=" << endl << " " << srcMyData << endl << endl;
 	cout << "groundtruth_rect=" <<endl<< " "<< srcAimData<<endl<<endl;
-
 	
 }
-
 
 
 /*----------------------------
